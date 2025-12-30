@@ -7,7 +7,7 @@ import (
 )
 
 func Racer(a, b string) (winner string, error error) {
-	return ConfigurableRacer(a, b, 10*time.Second)
+	return ConfigurableRacer(a, b, 10*time.Millisecond)
 }
 func ConfigurableRacer(a, b string, timeout time.Duration) (winner string, error error) {
 	select {

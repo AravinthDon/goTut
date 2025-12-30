@@ -10,14 +10,16 @@ import (
 func TestRacer(t *testing.T) {
 	t.Run("fast one wins", func(t *testing.T) {
 		slowServer := makeDelayedServer(20 * time.Millisecond)
-		fastServer := makeDelayedServer(0 * time.Second)
+		fastServer := makeDelayedServer(0 * time.Millisecond)
 
 		defer slowServer.Close()
 		defer fastServer.Close()
 
 		want := fastServer.URL
-		got, _ := Racer(slowServer.URL, fastServer.URL)
-
+		got, err := Racer(slowServer.URL, fastServer.URL)
+		if err != nil {
+			t.Fatalf("didn't expect an error but got one:  %v", err)
+		}
 		if got != want {
 			t.Errorf("got %q, want %q", got, want)
 		}
